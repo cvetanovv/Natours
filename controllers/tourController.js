@@ -1,5 +1,11 @@
-const { query } = require("express");
 const Tour = require("../models/tourModel");
+
+exports.aliasTopTours = (req, res, next) => {
+    req.query.limit = "5";
+    req.query.sort = "-ratingAverage,price";
+    req.query.fields = "name,price,ratingAverage,summary,difficulty";
+    next();
+};
 
 exports.getAllTours = async (req, res) => {
     try {
@@ -37,11 +43,11 @@ exports.getAllTours = async (req, res) => {
         // }
 
         // 3) Pagination
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 100;
-        const skip = (page - 1) * limit;
+        // const page = parseInt(req.query.page) || 1;
+        // const limit = parseInt(req.query.limit) || 100;
+        // const skip = (page - 1) * limit;
 
-        query = query.skip(skip).limit(limit);
+        // query = query.skip(skip).limit(limit);
 
         // Execute Query
         const tours = await query;
